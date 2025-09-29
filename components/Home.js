@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Alert, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Text, IconButton } from 'react-native-paper';
 import { fetchEstoque, deleteEstoque } from './Api';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Home({ navigation }) {
   const [registro, setRegistros] = useState([]);
@@ -34,7 +35,7 @@ export default function Home({ navigation }) {
                 <Text style={styles.title}>Código: {item.id}</Text>
                 <Text>Produto: {item.nome}</Text>
                 <Text>Marca: {item.marca}</Text>
-                <Text>Valor: R$ {item.preco}</Text>
+                <Text>Preço: R$ {item.preco}</Text>
               </View>
 
               {/* Coluna da direita: botões */}

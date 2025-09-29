@@ -12,7 +12,7 @@ export default function Alterar({ route, navigation }) {
 
   const handleSubmit = async () => {
     if (!form.nome || !form.marca) {
-      Alert.alert('Erro', 'Preencha pelo menos o Nome e a Marca.');
+      Alert.alert("Erro: Pelo menos o Nome e Marca tem que ser preenchido.");
       return;
     }
     await updateEstoque(form.id, form, navigation);
@@ -22,19 +22,19 @@ export default function Alterar({ route, navigation }) {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Nome do Produto"
+        placeholder="Produto..."
         value={String(form.nome || '')}
         onChangeText={(value) => handleChange('nome', value)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Marca"
+        placeholder="Marca..."
         value={String(form.marca || '')}
         onChangeText={(value) => handleChange('marca', value)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Preço"
+        placeholder="Preço..."
         keyboardType="numeric"
         value={String(form.preco || '')}
         onChangeText={(value) => handleChange('preco', value)}

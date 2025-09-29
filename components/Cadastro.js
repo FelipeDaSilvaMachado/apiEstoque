@@ -15,7 +15,7 @@ export default function Cadastro({ navigation }) {
 
   const handleSubmit = async () => {
     if (!form.nome || !form.marca) {
-      Alert.alert('Erro', 'Preencha pelo menos o Nome e a Marca.');
+      Alert.alert("Erro: Preencha pelo menos o Nome e a Marca.");
       return;
     }
     await createEstoque(form);
@@ -26,19 +26,19 @@ export default function Cadastro({ navigation }) {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Nome do Produto"
+        placeholder="Produto..."
         value={form.nome}
         onChangeText={(value) => handleChange('nome', value)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Marca"
+        placeholder="Marca..."
         value={form.marca}
         onChangeText={(value) => handleChange('marca', value)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Preço"
+        placeholder="Preço..."
         keyboardType="numeric"
         value={form.preco}
         onChangeText={(value) => handleChange('preco', value)}
