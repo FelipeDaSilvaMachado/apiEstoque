@@ -1,73 +1,55 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
-import { updateEstoque } from './Api';
+import { View, TextInput, Button, Alert } from 'react-native';
+import { alterarProdutos } from './Api';
 
 export default function Alterar({ route, navigation }) {
-  const { Estoque } = route.params;
-  const [form, setForm] = useState({ ...Estoque });
+  const { produtos } = route.params;
+  const [nome, setNome] = useState(produtos.nome);
+  const [marca, setMarca] = useState(produtos.marca);
+  const [preco, setPreco] = useState(produtos.preco);
 
-  const handleChange = (field, value) => {
-    setForm({ ...form, [field]: value });
-  };
+  const handleUpdate = () => {
+    const updatedData = {
+      nome,
+      marca,
+      preco,
+    };
 
-  const handleSubmit = async () => {
-    if (!form.nome || !form.marca) {
-      Alert.alert("Erro: Pelo menos o Nome e Marca tem que ser preenchido.");
-      return;
-    }
-    await updateEstoque(form.id, form, navigation);
+    Alert.alert(
+      'Confirmação',
+      'Tem certeza que deseja alterar este produto?',
+      [
+        {
+          text: 'Cancelar', style: 'cancel'
+        },
+        {
+          text: 'Alterar',
+          onPress: () => alterarProdutos(produtos.id, updatedData, navigation),
+        },
+      ]
+    )
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <TextInput
-        style={styles.input}
         placeholder="Produto..."
-        value={String(form.nome || '')}
-        onChangeText={(value) => handleChange('nome', value)}
+        value={nome}
+        onChangeText={setNome}
       />
       <TextInput
-        style={styles.input}
         placeholder="Marca..."
-        value={String(form.marca || '')}
-        onChangeText={(value) => handleChange('marca', value)}
+        value={marca}
+        onChangeText={setMarca}
       />
       <TextInput
-        style={styles.input}
         placeholder="Preço..."
         keyboardType="numeric"
-        value={String(form.preco || '')}
-        onChangeText={(value) => handleChange('preco', value)}
+        value={preco}
+        onChangeText={setPreco}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Salvar Alterações</Text>
-      </TouchableOpacity>
+      <Button title="Alterar" onPress={handleUpdate}/>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 6,
-    padding: 10,
-    marginBottom: 12,
-  },
-  button: {
-    backgroundColor: '#3498db',
-    padding: 14,
-    borderRadius: 6,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-});

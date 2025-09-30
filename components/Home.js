@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Alert, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Text, IconButton } from 'react-native-paper';
-import { fetchEstoque, deleteEstoque } from './Api';
+import { deletarProduto, fetchProdutos } from './Api';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Home({ navigation }) {
   const [registro, setRegistros] = useState([]);
 
   useEffect(() => {
-    fetchEstoque(setRegistros);
+    fetchProdutos(setRegistros);
   }, []);
 
   const handleDelete = (id) => {
@@ -16,14 +16,20 @@ export default function Home({ navigation }) {
       'Confirmação',
       'Tem certeza de que deseja deletar este item?',
       [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Deletar', onPress: () => deleteEstoque(id, setRegistros) },
+        { 
+          text: 'Cancelar', style: 'cancel'
+        },
+        {
+          text: 'Deletar', 
+          onPress: () => deletarProduto(id, setRegistros)
+        },
       ]
     );
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.titulo}>Lista de Produtos</Text>
       <FlatList
         data={registro}
         keyExtractor={(item) => item.id.toString()}
@@ -44,7 +50,7 @@ export default function Home({ navigation }) {
                   icon="pencil"
                   size={24}
                   iconColor="#3498db"
-                  onPress={() => navigation.navigate('Alterar', { Estoque: item })}
+                  onPress={() => navigation.navigate('Alterar', { produtos: item })}
                 />
                 <IconButton
                   icon="delete"
